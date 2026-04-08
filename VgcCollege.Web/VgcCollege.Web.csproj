@@ -22,4 +22,8 @@
     <PackageReference Include="xunit" Version="2.9.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VgcCollege.Domain\VgcCollege.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
