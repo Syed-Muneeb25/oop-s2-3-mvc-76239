@@ -45,6 +45,7 @@ else
 app.UseMiddleware<ExceptionHandling>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthentication();
@@ -56,9 +57,9 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-using (var scope = app.Services.CreateScope())
+ using (var scope = app.Services.CreateScope())
 {
-    await DataSeeder.SeedAsync(scope.ServiceProvider);
+ await DataSeeder.SeedAsync(scope.ServiceProvider);
 }
 
 app.Run();
