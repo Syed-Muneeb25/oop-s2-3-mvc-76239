@@ -11,8 +11,8 @@ using VgcCollege.Web.Data;
 namespace VgcCollege.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260409095933_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260409101816_FirstCreate")]
+    partial class FirstCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

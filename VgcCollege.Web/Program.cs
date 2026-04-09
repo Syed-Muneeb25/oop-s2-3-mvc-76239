@@ -24,6 +24,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultUI()
 .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
