@@ -28,7 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+	  <ProjectReference Include="..\VgcCollege.Domain\VgcCollege.Domain.csproj" />
+	  <ProjectReference Include="..\VgcCollege.Web\VgcCollege.Web.csproj" />  
   </ItemGroup>
+
 
 </Project>
