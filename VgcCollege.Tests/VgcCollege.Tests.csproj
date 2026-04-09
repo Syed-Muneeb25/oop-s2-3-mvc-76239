@@ -27,10 +27,10 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 
-  <ItemGroup>
-	  <ProjectReference Include="..\VgcCollege.Domain\VgcCollege.Domain.csproj" />
-	  <ProjectReference Include="..\VgcCollege.Web\VgcCollege.Web.csproj" />  
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\VgcCollege.Domain\VgcCollege.Domain.csproj" />
+		<ProjectReference Include="..\VgcCollege.Web\VgcCollege.Web.csproj" />
+	</ItemGroup>
 
 
 </Project>

@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VgcCollege.Web", "VgcCollege.Web\VgcCollege.Web.csproj", "{C6B962AA-953B-46E0-A247-F713E7BB4222}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7D58C89D-0155-4CCD-ADF2-DB57D1D9041B} = {7D58C89D-0155-4CCD-ADF2-DB57D1D9041B}
-		{9D8DE95E-B4D8-4168-973C-142808EB7ED6} = {9D8DE95E-B4D8-4168-973C-142808EB7ED6}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VgcCollege.Domain", "VgcCollege.Domain\VgcCollege.Domain.csproj", "{7D58C89D-0155-4CCD-ADF2-DB57D1D9041B}"

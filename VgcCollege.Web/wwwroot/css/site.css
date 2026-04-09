@@ -29,3 +29,71 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+/* ===== GLOBAL BUTTON STYLE ===== */
+
+.btn-primary {
+    background-color: #2563eb; /* blue */
+    border-color: #2563eb;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+    .btn-primary:hover {
+        background-color: #1e40af;
+        border-color: #1e40af;
+    }
+
+.btn-success {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    border-radius: 8px;
+}
+
+.btn-danger {
+    background-color: #dc2626;
+    border-color: #dc2626;
+    border-radius: 8px;
+}
+
+.btn-warning {
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+    border-radius: 8px;
+}
+
+.btn-secondary {
+    border-radius: 8px;
+}
+
+/* ===== LINK STYLE ===== */
+
+a {
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* ===== FORM IMPROVEMENTS ===== */
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+label {
+    font-weight: 600;
+}
+
+/* ===== CARD STYLE ===== */
+
+.card-custom {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* ===== PAGE BACKGROUND ===== */
+
+body {
+    background-color: #f8fafc;
+}
