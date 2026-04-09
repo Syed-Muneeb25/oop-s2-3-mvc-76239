@@ -1,0 +1,41 @@
+﻿@model IEnumerable<VgcCollege.Domain.ExamResult>
+
+@{
+    ViewData["Title"] = "My Exam Results";
+}
+
+<h1>My Exam Results</h1>
+<hr />
+
+@if (!Model.Any())
+{
+    <p>No released exam results yet.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Exam</th>
+                <th>Date</th>
+                <th>Score</th>
+                <th>Max Score</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Exam?.Course?.Name</td>
+                    <td>@item.Exam?.Title</td>
+                    <td>@item.Exam?.Date</td>
+                    <td>@item.Score</td>
+                    <td>@item.Exam?.MaxScore</td>
+                    <td>@item.Grade</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

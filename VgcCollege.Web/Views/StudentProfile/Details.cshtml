@@ -1,0 +1,73 @@
+﻿@model VgcCollege.Domain.StudentProfile
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h1>Student Details</h1>
+<h4>@Model.Name</h4>
+<hr />
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(m => m.StudentNumber)</dt>
+    <dd>@Html.DisplayFor(m => m.StudentNumber)</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.Email)</dt>
+    <dd>@Html.DisplayFor(m => m.Email)</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.Phone)</dt>
+    <dd>@Html.DisplayFor(m => m.Phone)</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.Address)</dt>
+    <dd>@Html.DisplayFor(m => m.Address)</dd>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <dt>@Html.DisplayNameFor(m => m.DateOfBirth)</dt>
+        <dd>@Html.DisplayFor(m => m.DateOfBirth)</dd>
+    }
+</dl>
+
+<h4>Enrolments</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Enrol Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var enrolment in Model.Enrolments)
+        {
+            <tr>
+                <td>@enrolment.Course?.Name</td>
+                <td>@enrolment.EnrolDate</td>
+                <td>@enrolment.Status</td>
+                <td>
+                    <a asp-controller="Course" asp-action="Details"
+                       asp-route-id="@enrolment.CourseId">Course</a>
+                    <span> | </span>
+                    <a asp-controller="Attendance" asp-action="ByCourse"
+                       asp-route-id="@enrolment.Id">Attendance</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <span> | </span>
+        <a asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-controller="Course" asp-action="Index">Back to My Courses</a>
+    }
+</div>

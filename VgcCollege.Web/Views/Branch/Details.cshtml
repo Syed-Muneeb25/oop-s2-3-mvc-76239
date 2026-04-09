@@ -1,0 +1,49 @@
+﻿@model VgcCollege.Domain.Branch
+
+@{
+    ViewData["Title"] = "Branch Details";
+}
+
+<h1>Branch Details</h1>
+<h4>@Model.Name</h4>
+<hr />
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(m => m.Address)</dt>
+    <dd>@Html.DisplayFor(m => m.Address)</dd>
+</dl>
+
+<h4>Courses</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Faculty</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td>@course.Name</td>
+                <td>@course.FacultyProfile?.Name</td>
+                <td>@course.StartDate</td>
+                <td>@course.EndDate</td>
+                <td>
+                    <a asp-controller="Course" asp-action="Details"
+                       asp-route-id="@course.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <span> | </span>
+    <a asp-action="Index">Back to List</a>
+</div>

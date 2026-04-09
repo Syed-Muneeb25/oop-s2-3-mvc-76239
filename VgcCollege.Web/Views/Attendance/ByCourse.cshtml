@@ -1,0 +1,97 @@
+﻿@using VgcCollege.Domain
+@model VgcCollege.Domain.CourseEnrolment
+
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<h1>Attendance</h1>
+<h4>@Model.StudentProfile?.Name — @Model.Course?.Name</h4>
+<hr />
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@{
+    var countable = Model.AttendanceRecords.Where(r => r.Status != AttendanceStatus.NA).ToList();
+    var present = countable.Count(r => r.Status == AttendanceStatus.Present);
+    var total = countable.Count;
+    var percentage = total > 0 ? (double)present / total * 100 : 0;
+}
+
+<p>
+    <strong>Attendance Rate:</strong> @percentage.ToString("F1")% (@present/@total)
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Week</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.AttendanceRecords.OrderBy(r => r.WeekNumber))
+        {
+            <tr>
+                <td>Week @record.WeekNumber</td>
+                <td>@record.Date</td>
+                <td>@record.Status</td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@record.Id" />
+                        <select name="status" class="form-control" style="width:auto; display:inline;"
+                                onchange="this.form.submit()">
+                            @foreach (var s in Enum.GetValues<AttendanceStatus>())
+                            {
+                                <option value="@((int)s)" selected="@(record.Status == s)">@s</option>
+                            }
+                        </select>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Add Record</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddRecord">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="enrolmentId" value="@Model.Id" />
+
+            <div class="form-group">
+                <label class="control-label">Week Number</label>
+                <input name="weekNumber" type="number" class="form-control" min="1" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Date</label>
+                <input name="date" type="date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Status</label>
+                <select name="status" class="form-control">
+                    <option value="0">Present</option>
+                    <option value="1">Absent</option>
+                    <option value="2">NA</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Course" asp-action="Details" asp-route-id="@Model.CourseId">Back to Course</a>
+</div>

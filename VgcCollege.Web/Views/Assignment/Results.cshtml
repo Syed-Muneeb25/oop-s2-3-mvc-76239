@@ -1,0 +1,60 @@
+﻿@model VgcCollege.Domain.Assignment
+
+@{
+    ViewData["Title"] = "Gradebook";
+}
+
+<h1>Gradebook</h1>
+<h4>@Model.Title — @Model.Course?.Name</h4>
+<p>Max Score: @Model.MaxScore | Due: @Model.DueDate</p>
+<hr />
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Score</th>
+            <th>Feedback</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var enrolment in ViewBag.Enrolled)
+        {
+            var result = Model.Results.FirstOrDefault(r => r.StudentProfileId == enrolment.StudentProfileId);
+            <tr>
+                <td>@enrolment.StudentProfile?.Name</td>
+                <form asp-action="SaveResult" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="assignmentId" value="@Model.Id" />
+                    <input type="hidden" name="studentProfileId" value="@enrolment.StudentProfileId" />
+                <td>
+                    <input name="score" type="number" class="form-control"
+                           style="width:80px;" min="0" max="@Model.MaxScore"
+                           value="@(result?.Score ?? 0)" />
+                </td>
+                <td>
+                    <input name="feedback" type="text" class="form-control"
+                           value="@(result?.Feedback ?? "")" />
+                </td>
+                <td>
+                    <input type="submit" value="Save" class="btn btn-sm btn-primary" />
+                </td>
+                </form>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="ByCourse" asp-route-courseId="@Model.CourseId">Back to Assignments</a>
+</div>

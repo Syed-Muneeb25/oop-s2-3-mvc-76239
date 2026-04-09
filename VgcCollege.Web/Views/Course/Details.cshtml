@@ -1,0 +1,120 @@
+﻿@model VgcCollege.Domain.Course
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<h1>Course Details</h1>
+<h4>@Model.Name</h4>
+<hr />
+
+<dl class="dl-horizontal">
+    <dt>Branch</dt>
+    <dd>
+        @Model.Branch?.Name
+        @if (User.IsInRole("Admin") && Model.Branch != null)
+        {
+            <a asp-controller="Branch" asp-action="Details"
+               asp-route-id="@Model.BranchId">Details</a>
+        }
+    </dd>
+    <dt>Faculty</dt>
+    <dd>
+        @Model.FacultyProfile?.Name
+        @if (User.IsInRole("Admin") && Model.FacultyProfile != null)
+        {
+            <a asp-controller="FacultyProfile" asp-action="Details"
+               asp-route-id="@Model.FacultyProfileId">Profile</a>
+        }
+    </dd>
+    <dt>@Html.DisplayNameFor(m => m.StartDate)</dt>
+    <dd>@Html.DisplayFor(m => m.StartDate)</dd>
+    <dt>@Html.DisplayNameFor(m => m.EndDate)</dt>
+    <dd>@Html.DisplayFor(m => m.EndDate)</dd>
+</dl>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Faculty"))
+{
+    <h4>Enrolled Students</h4>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <form asp-action="Enrol" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="courseId" value="@Model.Id" />
+            <div class="form-group" style="display:flex; gap:10px; align-items:center;">
+                <select name="studentProfileId" asp-items="ViewBag.AllStudents"
+                        class="form-control" style="width:auto;">
+                    <option value="">-- Select Student --</option>
+                </select>
+                <input type="submit" value="Enrol Student" class="btn btn-primary" />
+            </div>
+        </form>
+        <br />
+    }
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Enrol Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var enrolment in Model.Enrolments)
+            {
+                <tr>
+                    <td>@enrolment.StudentProfile?.Name</td>
+                    <td>@enrolment.EnrolDate</td>
+                    <td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <form asp-action="UpdateEnrolmentStatus" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="enrolmentId" value="@enrolment.Id" />
+                                <input type="hidden" name="courseId" value="@Model.Id" />
+                                <select name="status" class="form-control" style="width:auto; display:inline;"
+                                        onchange="this.form.submit()">
+                                    @foreach (var s in Enum.GetValues<VgcCollege.Domain.EnrolmentStatus>())
+                                    {
+                                        <option value="@((int)s)" selected="@(enrolment.Status == s)">@s</option>
+                                    }
+                                </select>
+                            </form>
+                        }
+                        else
+                        {
+                            @enrolment.Status
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="StudentProfile" asp-action="Details"
+                           asp-route-id="@enrolment.StudentProfileId">Profile</a>
+                        <span> | </span>
+                        <a asp-controller="Attendance" asp-action="ByCourse"
+                           asp-route-id="@enrolment.Id">Attendance</a>
+                        <span> | </span>
+                        <a asp-controller="Assignment" asp-action="ByCourse"
+                           asp-route-courseId="@Model.Id">Assignments</a>
+                        <span> | </span>
+                        <a asp-controller="Exam" asp-action="ByCourse"
+                           asp-route-courseId="@Model.Id">Exams</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br />
+
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <span> | </span>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

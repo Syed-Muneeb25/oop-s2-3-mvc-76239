@@ -19,14 +19,32 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                    <div class="menu-links d-flex gap-3">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Branch" asp-action="Index">Branches</a>
+                            <span>|</span>
+                            <a asp-controller="Course" asp-action="Index">Courses</a>
+                            <span>|</span>
+                            <a asp-controller="StudentProfile" asp-action="Index">Students</a>
+                            <span>|</span>
+                            <a asp-controller="FacultyProfile" asp-action="Index">Faculty</a>
+                            <span>|</span>
+                            <a asp-controller="Admin" asp-action="Index">Admins</a>
+                        }
+                        @if (User.IsInRole("Faculty"))
+                        {
+                            <a asp-controller="Course" asp-action="Index">Courses</a>
+                        }
+                        @if (User.IsInRole("Student"))
+                        {
+                            <a asp-controller="Course" asp-action="Index">Courses</a>
+                            <span>|</span>
+                            <a asp-controller="Assignment" asp-action="MyResults">Assignments</a>
+                            <span>|</span>
+                            <a asp-controller="Exam" asp-action="MyResults">Exams</a>
+                        }
+                    </div>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
