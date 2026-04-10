@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Xunit.Sdk;
-
 namespace VgcCollege.Domain
 {
     public class AssignmentResult
