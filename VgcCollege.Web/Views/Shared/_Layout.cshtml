@@ -9,62 +9,57 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/VgcCollege.Web.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="app">
+    <div class="app-bg" aria-hidden="true"></div>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-            .navbar a {
-            color: #ffffff !important;
-            }
-            .navbar a:hover {
-            color: #93c5fd !important;
-            }
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VgcCollege.Web</a>
+        <nav class="navbar navbar-expand-lg navbar-dark app-nav">
+            <div class="container-fluid px-3 px-lg-4">
+                <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="app-mark">VGC</span>
+                    <span class="app-name">College</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <div class="menu-links d-flex gap-3">
+                <div class="navbar-collapse collapse justify-content-between">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2 app-navlinks">
                         @if (User.IsInRole("Admin"))
                         {
-                            <a asp-controller="Branch" asp-action="Index">Branches</a>
-                            <span>|</span>
-                            <a asp-controller="Course" asp-action="Index">Courses</a>
-                            <span>|</span>
-                            <a asp-controller="StudentProfile" asp-action="Index">Students</a>
-                            <span>|</span>
-                            <a asp-controller="FacultyProfile" asp-action="Index">Faculty</a>
-                            <span>|</span>
-                            <a asp-controller="Admin" asp-action="Index">Admins</a>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Branch" asp-action="Index">Branches</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Course" asp-action="Index">Courses</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="StudentProfile" asp-action="Index">Students</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="FacultyProfile" asp-action="Index">Faculty</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="Index">Admins</a></li>
                         }
                         @if (User.IsInRole("Faculty"))
                         {
-                            <a asp-controller="Course" asp-action="Index">Courses</a>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Course" asp-action="Index">Courses</a></li>
                         }
                         @if (User.IsInRole("Student"))
                         {
-                            <a asp-controller="Course" asp-action="Index">Courses</a>
-                            <span>|</span>
-                            <a asp-controller="Assignment" asp-action="MyResults">Assignments</a>
-                            <span>|</span>
-                            <a asp-controller="Exam" asp-action="MyResults">Exams</a>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Course" asp-action="Index">Courses</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Assignment" asp-action="MyResults">Assignments</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Exam" asp-action="MyResults">Exams</a></li>
                         }
+                    </ul>
+                    <div class="ms-lg-3">
+                        <partial name="_LoginPartial" />
                     </div>
-                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-fluid px-3 px-lg-4 app-shell">
+        <main role="main" class="pb-4 app-main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - VgcCollege.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer app-footer">
+        <div class="container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between gap-3">
+            <div class="app-footer-text">&copy; 2026 - VGC College</div>
+            <a class="app-footer-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

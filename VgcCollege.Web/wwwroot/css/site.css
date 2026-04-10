@@ -1,5 +1,37 @@
+:root {
+  color-scheme: dark;
+
+  --app-bg0: #070a12;
+  --app-bg1: #0b1224;
+  --app-surface: rgba(18, 26, 48, 0.72);
+  --app-surface-strong: rgba(18, 26, 48, 0.92);
+  --app-border: rgba(148, 163, 184, 0.18);
+  --app-text: #e5e7eb;
+  --app-muted: rgba(229, 231, 235, 0.70);
+  --app-link: #7dd3fc;
+  --app-link-hover: #bae6fd;
+
+  --app-primary: #60a5fa;
+  --app-primary-hover: #3b82f6;
+  --app-success: #34d399;
+  --app-success-hover: #10b981;
+  --app-danger: #fb7185;
+  --app-danger-hover: #f43f5e;
+  --app-warning: #fbbf24;
+  --app-warning-hover: #f59e0b;
+  --app-secondary: #94a3b8;
+  --app-secondary-hover: #cbd5e1;
+
+  --app-radius: 14px;
+  --app-radius-sm: 10px;
+  --app-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --app-shadow-soft: 0 12px 34px rgba(0, 0, 0, 0.35);
+}
+
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,92 +40,219 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+body.app {
+  margin-bottom: 70px;
+  background: radial-gradient(1200px 900px at 15% 10%, rgba(96, 165, 250, 0.18), transparent 60%),
+    radial-gradient(1000px 800px at 85% 20%, rgba(251, 191, 36, 0.12), transparent 55%),
+    radial-gradient(900px 750px at 60% 95%, rgba(52, 211, 153, 0.10), transparent 60%),
+    linear-gradient(180deg, var(--app-bg0), var(--app-bg1));
+  color: var(--app-text);
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.app-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(148, 163, 184, 0.10) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
 }
 
-body {
-  margin-bottom: 60px;
+.app-shell {
+  max-width: 1200px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.app-main {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow-soft);
+  backdrop-filter: blur(10px);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Links */
+a {
+  color: var(--app-link);
+  text-decoration: none;
+  font-weight: 600;
 }
-/* ===== GLOBAL BUTTON STYLE ===== */
+
+a:hover {
+  color: var(--app-link-hover);
+  text-decoration: none;
+}
+
+/* Forms */
+label {
+  font-weight: 700;
+}
+
+.form-control,
+.form-select,
+.form-control-plaintext {
+  border-radius: var(--app-radius-sm);
+  background-color: rgba(3, 6, 16, 0.55);
+  border-color: rgba(148, 163, 184, 0.22);
+  color: var(--app-text);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: rgba(96, 165, 250, 0.55);
+  box-shadow: 0 0 0 0.12rem rgba(96, 165, 250, 0.18);
+}
+
+.form-check-input {
+  background-color: rgba(3, 6, 16, 0.55);
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+.text-muted {
+  color: var(--app-muted) !important;
+}
+
+/* Tables (many views use plain <table> without bootstrap classes) */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: rgba(3, 6, 16, 0.40);
+}
+
+th,
+td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  vertical-align: middle;
+}
+
+th {
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  color: rgba(229, 231, 235, 0.88);
+  background: rgba(18, 26, 48, 0.65);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: rgba(96, 165, 250, 0.06);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.12rem rgba(255, 255, 255, 0.06), 0 0 0 0.28rem rgba(96, 165, 250, 0.22);
+}
 
 .btn-primary {
-    background-color: #2563eb; /* blue */
-    border-color: #2563eb;
-    border-radius: 8px;
-    font-weight: 500;
+  color: #06101f;
+  background-color: var(--app-primary);
+  border-color: rgba(96, 165, 250, 0.55);
 }
 
-    .btn-primary:hover {
-        background-color: #1e40af;
-        border-color: #1e40af;
-    }
+.btn-primary:hover {
+  color: #06101f;
+  background-color: var(--app-primary-hover);
+  border-color: rgba(59, 130, 246, 0.65);
+}
 
 .btn-success {
-    background-color: #16a34a;
-    border-color: #16a34a;
-    border-radius: 8px;
+  color: #06101f;
+  background-color: var(--app-success);
+  border-color: rgba(52, 211, 153, 0.55);
+}
+
+.btn-success:hover {
+  color: #06101f;
+  background-color: var(--app-success-hover);
+  border-color: rgba(16, 185, 129, 0.60);
 }
 
 .btn-danger {
-    background-color: #dc2626;
-    border-color: #dc2626;
-    border-radius: 8px;
+  color: #20060a;
+  background-color: var(--app-danger);
+  border-color: rgba(251, 113, 133, 0.55);
+}
+
+.btn-danger:hover {
+  color: #20060a;
+  background-color: var(--app-danger-hover);
+  border-color: rgba(244, 63, 94, 0.65);
 }
 
 .btn-warning {
-    background-color: #f59e0b;
-    border-color: #f59e0b;
-    border-radius: 8px;
+  color: #1b1200;
+  background-color: var(--app-warning);
+  border-color: rgba(251, 191, 36, 0.55);
+}
+
+.btn-warning:hover {
+  color: #1b1200;
+  background-color: var(--app-warning-hover);
+  border-color: rgba(245, 158, 11, 0.65);
 }
 
 .btn-secondary {
-    border-radius: 8px;
+  color: #050810;
+  background-color: var(--app-secondary);
+  border-color: rgba(148, 163, 184, 0.55);
 }
 
-/* ===== LINK STYLE ===== */
-
-a {
-    text-decoration: none;
-    font-weight: 500;
+.btn-secondary:hover {
+  color: #050810;
+  background-color: var(--app-secondary-hover);
+  border-color: rgba(203, 213, 225, 0.65);
 }
 
-/* ===== FORM IMPROVEMENTS ===== */
-
-.form-control {
-    border-radius: 8px;
-    padding: 10px;
+.btn-outline-light {
+  border-color: rgba(229, 231, 235, 0.35);
+  color: rgba(229, 231, 235, 0.92);
 }
 
-label {
-    font-weight: 600;
+.btn-outline-light:hover {
+  background: rgba(229, 231, 235, 0.12);
+  border-color: rgba(229, 231, 235, 0.45);
+  color: #ffffff;
 }
 
-/* ===== CARD STYLE ===== */
+.as-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--app-link);
+  font-weight: 700;
+  text-decoration: none;
+}
 
+.as-link:hover {
+  color: var(--app-link-hover);
+  text-decoration: none;
+}
+
+/* Existing helper card class used across views */
 .card-custom {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-/* ===== PAGE BACKGROUND ===== */
-
-body {
-    background-color: #f8fafc;
+  background: var(--app-surface-strong);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  padding: 20px;
+  box-shadow: var(--app-shadow);
 }
