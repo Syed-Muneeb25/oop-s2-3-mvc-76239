@@ -24,6 +24,10 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Check circular project references
+        shell: pwsh
+        run: ./scripts/check-circular-project-references.ps1 -Root .
+
       - name: Restore dependencies
         run: dotnet restore
 

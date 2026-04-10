@@ -26,8 +26,12 @@ function Resolve-ProjectReferencePath {
 function Get-ProjectGraph {
   param([Parameter(Mandatory = $true)][string]$RootPath)
 
+  $solutionFiles = Get-ChildItem -Path $RootPath -Recurse -File -Filter *.sln |
+    Where-Object { $_.FullName -notmatch '([\\/])(obj|bin)([\\/])' } |
+    ForEach-Object { $_.FullName }
+
   $projects = Get-ChildItem -Path $RootPath -Recurse -File -Filter *.csproj |
-    Where-Object { $_.FullName -notmatch '\\\\(obj|bin)\\\\' } |
+    Where-Object { $_.FullName -notmatch '([\\/])(obj|bin)([\\/])' } |
     ForEach-Object { $_.FullName }
 
   $graph = @{}
@@ -49,6 +53,61 @@ function Get-ProjectGraph {
       } else {
         # Keep unknown refs for debugging, but don't treat them as nodes.
         $graph[$projectFile] += $refPath
+      }
+    }
+  }
+
+  foreach ($sln in $solutionFiles) {
+    $projectGuidToPath = @{}
+    $lines = Get-Content -LiteralPath $sln
+
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+      $line = $lines[$i]
+      if ($line -match '^Project\\(\"\\{[^\\}]+\\}\"\\)\\s*=\\s*\"[^\"]+\"\\s*,\\s*\"([^\"]+\\.csproj)\"\\s*,\\s*\"\\{([^\\}]+)\\}\"') {
+        $relativePath = $Matches[1]
+        $guid = $Matches[2].ToUpperInvariant()
+        $abs = [System.IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $sln) $relativePath))
+        $projectGuidToPath[$guid] = $abs
+      }
+    }
+
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+      $line = $lines[$i]
+      if ($line -match '^\\s*ProjectSection\\(ProjectDependencies\\)\\s*=\\s*postProject\\s*$') {
+        # Walk backwards to the nearest "Project(" line to find the owning project.
+        $ownerGuid = $null
+        for ($j = $i; $j -ge 0; $j--) {
+          if ($lines[$j] -match '^Project\\(\"\\{[^\\}]+\\}\"\\)\\s*=\\s*\"[^\"]+\"\\s*,\\s*\"[^\"]+\\.csproj\"\\s*,\\s*\"\\{([^\\}]+)\\}\"') {
+            $ownerGuid = $Matches[1].ToUpperInvariant()
+            break
+          }
+        }
+
+        if (-not $ownerGuid) {
+          continue
+        }
+
+        $ownerPath = $projectGuidToPath[$ownerGuid]
+        if (-not $ownerPath -or -not $graph.ContainsKey($ownerPath)) {
+          continue
+        }
+
+        # Parse dependency GUID lines until EndProjectSection.
+        for ($k = $i + 1; $k -lt $lines.Count; $k++) {
+          $depLine = $lines[$k]
+          if ($depLine -match '^\\s*EndProjectSection\\s*$') {
+            $i = $k
+            break
+          }
+
+          if ($depLine -match '^\\s*\\{([^\\}]+)\\}\\s*=\\s*\\{[^\\}]+\\}\\s*$') {
+            $depGuid = $Matches[1].ToUpperInvariant()
+            $depPath = $projectGuidToPath[$depGuid]
+            if ($depPath -and $graph.ContainsKey($depPath)) {
+              $graph[$ownerPath] += $depPath
+            }
+          }
+        }
       }
     }
   }
