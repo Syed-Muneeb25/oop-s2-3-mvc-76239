@@ -5,11 +5,12 @@ on:
     branches:
       - main
       - master
+      - Vgc
   pull_request:
     branches:
       - main
       - master
-
+      - Vgc
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
